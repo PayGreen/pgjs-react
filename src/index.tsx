@@ -1,1 +1,3 @@
-export { PGJSContext, PGJSProvider };
+import { PGJSProvider, usePGJS } from "./PGJSProvider";
+
+export { PGJSProvider, usePGJS };

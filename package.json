@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "rollup.config.js",
+  "type": "module",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
@@ -23,14 +25,17 @@
     "@types/react": "^18.2.16",
     "@types/react-dom": "^18.2.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tslib": "^2.6.1"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-typescript": "^11.1.2",
     "rollup": "^3.26.3",
+    "rollup-plugin-dts": "^5.3.1",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^2.0.2"
   }

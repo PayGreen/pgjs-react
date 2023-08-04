@@ -1,22 +1,24 @@
+import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
-import typescript from "rollup-plugin-typescript2";
 
 export default [
   {
-    input: "src/index.ts",
-    output: {
-      file: "build/paygreenjs-react.js",
-      format: "cjs",
-      sourcemap: true,
-    },
+    input: `src/index.tsx`,
     plugins: [typescript()],
+    output: [
+      {
+        file: `dist/bundle.js`,
+        format: "cjs",
+        sourcemap: true,
+      },
+    ],
   },
   {
-    input: "src/types/index.d.ts",
+    input: `src/index.tsx`,
+    plugins: [dts(), typescript()],
     output: {
-      file: "build/paygreenjs-react.d.ts",
+      file: `dist/bundle.d.ts`,
       format: "es",
     },
-    plugins: [dts()],
   },
 ];

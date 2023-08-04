@@ -107,7 +107,7 @@ export interface PaymentFlowType {
   token?: string;
 }
 
-interface PaymentOrderType {
+export interface PaymentOrderType {
   id: string;
   object: string;
   amount: number;

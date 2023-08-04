@@ -1,4 +1,10 @@
-import React, { ReactElement, createContext, useEffect, useState } from "react";
+import React, {
+  ReactElement,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { ParamsType, PaymentFlowType, PaymentOrderType } from "./types";
 import { OAuthMethods } from "./utils/constants";
 
@@ -203,4 +209,6 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
   );
 };
 
-export { PGJSContext, PGJSProvider };
+const usePGJS = () => useContext(PGJSContext);
+
+export { PGJSProvider, usePGJS };
