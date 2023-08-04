@@ -9,12 +9,20 @@ import { ParamsType, PaymentFlowType, PaymentOrderType } from "./types";
 import { OAuthMethods } from "./utils/constants";
 import { loadPGJS } from "./utils/loadPGJS";
 
+const CoreContainer = () => <div id="paygreen-container"></div>;
+const MethodsContainer = () => <div id="paygreen-methods-container"></div>;
+const PaymentContainer = () => <div id="paygreen-methods-container"></div>;
+const CvvContainer = () => <div id="paygreen-methods-container"></div>;
+const ExpContainer = () => <div id="paygreen-methods-container"></div>;
+const PanContainer = () => <div id="paygreen-methods-container"></div>;
+
 const PGJSContext = createContext<ProviderProps>({
   initPGJS: () => null,
   setPaymentMethod: () => null,
   setInstrument: () => null,
   setLanguage: () => null,
   submitPayment: () => null,
+  isPGJSAvailable: false,
   isPGJSInit: false,
   paymentOrder: null,
   flows: [],
@@ -31,6 +39,7 @@ interface ProviderProps {
   setInstrument: (instrument: string) => void;
   setLanguage: (language: string) => void;
   submitPayment: () => void;
+  isPGJSAvailable: boolean;
   isPGJSInit: boolean;
   paymentOrder: PaymentOrderType | null;
   flows: Array<PaymentFlowType>;
@@ -209,6 +218,7 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
   useEffect(() => {
     const initialiseAndLoadPGJS = async () => {
       await loadPGJS();
+      console.log("isPGJSAvailable");
       setIsPGJSAvailable(true);
     };
     initialiseAndLoadPGJS();
@@ -226,6 +236,7 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
         setInstrument,
         setLanguage,
         submitPayment,
+        isPGJSAvailable,
         isPGJSInit,
         paymentOrder,
         flows,
@@ -243,4 +254,13 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
 
 const usePGJS = () => useContext(PGJSContext);
 
-export { PGJSProvider, usePGJS };
+export {
+  CoreContainer,
+  CvvContainer,
+  ExpContainer,
+  MethodsContainer,
+  PGJSProvider,
+  PanContainer,
+  PaymentContainer,
+  usePGJS,
+};

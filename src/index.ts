@@ -1,3 +1,21 @@
-import { PGJSProvider, usePGJS } from "./PGJSProvider";
+import {
+  CoreContainer,
+  CvvContainer,
+  ExpContainer,
+  MethodsContainer,
+  PGJSProvider,
+  PanContainer,
+  PaymentContainer,
+  usePGJS,
+} from "./PGJSProvider";
 
-export { PGJSProvider, usePGJS };
+export {
+  CoreContainer,
+  CvvContainer,
+  ExpContainer,
+  MethodsContainer,
+  PGJSProvider,
+  PanContainer,
+  PaymentContainer,
+  usePGJS,
+};

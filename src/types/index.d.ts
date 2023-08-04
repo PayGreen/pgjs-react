@@ -30,11 +30,11 @@ interface PGEvent extends Event {
 }
 
 export interface ParamsType {
-  paymentOrderID: string;
-  objectSecret: string;
+  paymentOrderID?: string;
+  objectSecret?: string;
   publicKey: string;
   mode: "tokenizer" | "instrument" | "payment";
-  modeOptions: {
+  modeOptions?: {
     authorizedInstrument: boolean;
     shopId: string;
   };
@@ -43,9 +43,9 @@ export interface ParamsType {
   paymentMethod?: string;
   style?: StyleIframeType;
   buyer?: string;
-  displayCardLogo: boolean;
+  displayCardLogo?: boolean;
   lang?: string;
-  displayAuthentication: "inline" | "modal";
+  displayAuthentication?: "inline" | "modal";
 }
 
 interface StyleIframeType {
