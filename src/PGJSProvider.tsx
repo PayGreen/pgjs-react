@@ -9,13 +9,6 @@ import { ParamsType, PaymentFlowType, PaymentOrderType } from "./types";
 import { OAuthMethods } from "./utils/constants";
 import { loadPGJS } from "./utils/loadPGJS";
 
-const CoreContainer = () => <div id="paygreen-container"></div>;
-const MethodsContainer = () => <div id="paygreen-methods-container"></div>;
-const PaymentContainer = () => <div id="paygreen-methods-container"></div>;
-const CvvContainer = () => <div id="paygreen-methods-container"></div>;
-const ExpContainer = () => <div id="paygreen-methods-container"></div>;
-const PanContainer = () => <div id="paygreen-methods-container"></div>;
-
 const PGJSContext = createContext<ProviderProps>({
   initPGJS: () => null,
   setPaymentMethod: () => null,
@@ -254,13 +247,4 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
 
 const usePGJS = () => useContext(PGJSContext);
 
-export {
-  CoreContainer,
-  CvvContainer,
-  ExpContainer,
-  MethodsContainer,
-  PGJSProvider,
-  PanContainer,
-  PaymentContainer,
-  usePGJS,
-};
+export { PGJSProvider, usePGJS };

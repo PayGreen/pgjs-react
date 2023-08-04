@@ -3,19 +3,18 @@ import {
   CvvContainer,
   ExpContainer,
   MethodsContainer,
-  PGJSProvider,
   PanContainer,
   PaymentContainer,
-  usePGJS,
-} from "./PGJSProvider";
+} from "./components/Skeleton";
+import { PGJSProvider, usePGJS } from "./PGJSProvider";
 
 export {
   CoreContainer,
   CvvContainer,
   ExpContainer,
   MethodsContainer,
-  PGJSProvider,
   PanContainer,
   PaymentContainer,
+  PGJSProvider,
   usePGJS,
 };

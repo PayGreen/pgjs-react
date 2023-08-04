@@ -1,0 +1,24 @@
+import React, { ReactElement } from "react";
+
+interface SkeletonProps {
+  children?: ReactElement | Array<ReactElement>;
+}
+
+export const CoreContainer = ({ children }: SkeletonProps) => (
+  <div id="paygreen-container">{children}</div>
+);
+export const MethodsContainer = ({ children }: SkeletonProps) => (
+  <div id="paygreen-methods-container">{children}</div>
+);
+export const PaymentContainer = ({ children }: SkeletonProps) => (
+  <div id="paygreen-methods-container">{children}</div>
+);
+export const CvvContainer = ({ children }: SkeletonProps) => (
+  <div id="paygreen-methods-container">{children}</div>
+);
+export const ExpContainer = ({ children }: SkeletonProps) => (
+  <div id="paygreen-methods-container">{children}</div>
+);
+export const PanContainer = ({ children }: SkeletonProps) => (
+  <div id="paygreen-methods-container">{children}</div>
+);
