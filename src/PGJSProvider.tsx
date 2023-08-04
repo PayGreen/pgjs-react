@@ -7,8 +7,23 @@ import React, {
 } from "react";
 import { ParamsType, PaymentFlowType, PaymentOrderType } from "./types";
 import { OAuthMethods } from "./utils/constants";
+import { loadPGJS } from "./utils/loadPGJS";
 
-const PGJSContext = createContext<ProviderProps | null>(null);
+const PGJSContext = createContext<ProviderProps>({
+  initPGJS: () => null,
+  setPaymentMethod: () => null,
+  setInstrument: () => null,
+  setLanguage: () => null,
+  submitPayment: () => null,
+  isPGJSInit: false,
+  paymentOrder: null,
+  flows: [],
+  flow: null,
+  cardIsValid: false,
+  isPaying: false,
+  isAuthenticating: false,
+  publicKey: null,
+});
 
 interface ProviderProps {
   initPGJS: (params: ParamsType) => void;
@@ -17,7 +32,7 @@ interface ProviderProps {
   setLanguage: (language: string) => void;
   submitPayment: () => void;
   isPGJSInit: boolean;
-  paymentOrder: PaymentOrderType;
+  paymentOrder: PaymentOrderType | null;
   flows: Array<PaymentFlowType>;
   flow: PaymentFlowType | null;
   cardIsValid: boolean;
@@ -27,10 +42,11 @@ interface ProviderProps {
 }
 
 interface PGJSProviderProps {
-  children: ReactElement;
+  children: ReactElement | Array<ReactElement>;
 }
 
 const PGJSProvider = ({ children }: PGJSProviderProps) => {
+  const [isPGJSAvailable, setIsPGJSAvailable] = useState(!!window?.paygreenjs);
   const [isPGJSInit, setIsPGJSInit] = useState(false);
   const [isEventsSubscribed, setIsEventsSubscribed] = useState(false);
   const [cardIsValid, setCardIsValid] = useState(false);
@@ -72,6 +88,10 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
   };
 
   useEffect(() => {
+    if (!isPGJSAvailable) {
+      return;
+    }
+
     if (isEventsSubscribed) {
       return;
     }
@@ -158,7 +178,7 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
         window?.paygreenjs.unmount(true);
       }
     };
-  }, [isEventsSubscribed, isPGJSInit]);
+  }, [isEventsSubscribed, isPGJSInit, isPGJSAvailable]);
 
   useEffect(() => {
     // If only a means of payment outside oauth
@@ -185,6 +205,18 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
       setIsAuthenticating(true);
     }
   }, [flow, paymentOrder]);
+
+  useEffect(() => {
+    const initialiseAndLoadPGJS = async () => {
+      await loadPGJS();
+      setIsPGJSAvailable(true);
+    };
+    initialiseAndLoadPGJS();
+  }, []);
+
+  if (!isPGJSAvailable) {
+    return null;
+  }
 
   return (
     <PGJSContext.Provider
