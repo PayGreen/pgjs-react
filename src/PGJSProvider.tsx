@@ -15,6 +15,7 @@ const PGJSContext = createContext<ProviderProps>({
   setInstrument: () => null,
   setLanguage: () => null,
   submitPayment: () => null,
+  unmount: () => null,
   isPGJSAvailable: false,
   isPGJSInit: false,
   paymentOrder: null,
@@ -32,6 +33,7 @@ interface ProviderProps {
   setInstrument: (instrument: string) => void;
   setLanguage: (language: string) => void;
   submitPayment: () => void;
+  unmount: (detach?: boolean) => void;
   isPGJSAvailable: boolean;
   isPGJSInit: boolean;
   paymentOrder: PaymentOrderType | null;
@@ -89,6 +91,11 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
     window?.paygreenjs.submitPayment();
   };
 
+  const unmount = (detach?: boolean) => {
+    setIsPGJSInit(false);
+    window?.paygreenjs.unmount(detach);
+  };
+
   useEffect(() => {
     if (!isPGJSAvailable) {
       return;
@@ -110,9 +117,9 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
 
     window?.paygreenjs.attachEventListener(
       window?.paygreenjs.Events.TOKEN_FAIL,
-      () => {
+      (event) => {
         setIsPaying(false);
-        console.error("ToHandle Fail");
+        console.error("ToHandle token Fail", event);
       }
     );
 
@@ -125,7 +132,7 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
         setIsPaying(false);
         setIsAuthenticating(false);
         setIsPGJSInit(false);
-        console.error("ToHandle Fail");
+        console.error("ToHandle Fail", event);
       }
     );
 
@@ -195,7 +202,7 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
     if (
       flow?.status === "pending" &&
       flow?.method === "bank_card" &&
-      paymentOrder.platform_options.bank_card.type === "svad_1"
+      paymentOrder?.platform_options?.bank_card?.type === "svad_1"
     ) {
       setCardIsValid(true);
     } else {
@@ -211,7 +218,6 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
   useEffect(() => {
     const initialiseAndLoadPGJS = async () => {
       await loadPGJS();
-      console.log("isPGJSAvailable");
       setIsPGJSAvailable(true);
     };
     initialiseAndLoadPGJS();
@@ -229,6 +235,7 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
         setInstrument,
         setLanguage,
         submitPayment,
+        unmount,
         isPGJSAvailable,
         isPGJSInit,
         paymentOrder,
