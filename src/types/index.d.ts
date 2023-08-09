@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-type EventsType = Record<Events, string>;
+export type EventsType = Record<Events, string>;
 
 export interface PaygreenJS {
   setPaymentMethod: (method: string | null) => void;
@@ -20,12 +20,12 @@ export interface PaygreenJS {
     event: string,
     callback: (event: PGEvent) => void
   ) => void;
-  detachEventListener: (event: string) => void;
+  detachEventListener: (detach?: boolean) => void;
   Events: EventsType;
   init: (params: ParamsType) => void;
 }
 
-interface PGEvent extends Event {
+export interface PGEvent extends Event {
   detail: any;
 }
 

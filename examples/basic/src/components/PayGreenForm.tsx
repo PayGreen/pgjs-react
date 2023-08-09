@@ -7,27 +7,61 @@ import {
   PaymentContainer,
   usePGJS,
 } from "@paygreen/pgjs-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const PayGreenForm = () => {
-  const { isPGJSInit, initPGJS, isPGJSAvailable, submitPayment, unmount } =
-    usePGJS();
+  const [error, setError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [eventsAttached, setEventsAttached] = useState(false);
+
+  const {
+    isPGJSInit,
+    initPGJS,
+    isPGJSAvailable,
+    submitPayment,
+    unmount,
+    attachEventListener,
+    isAuthenticating,
+    Events,
+  } = usePGJS();
 
   useEffect(() => {
-    console.log(isPGJSAvailable, !isPGJSInit);
     if (isPGJSAvailable && !isPGJSInit) {
       initPGJS({
-        mode: "instrument",
-        publicKey: "pk_ea5736302a5f4a8fbacb0bfb6c9017e6",
+        mode: "payment",
         paymentMethod: "bank_card",
+        publicKey: "pk_xxxx",
+        paymentOrderID: "po_xxxxx",
+        objectSecret: "xxxxxxxxxx",
       });
     }
   }, [initPGJS, isPGJSAvailable, isPGJSInit, unmount]);
 
+  useEffect(() => {
+    if (!eventsAttached && attachEventListener) {
+      attachEventListener(Events.ERROR, () => {
+        setError(true);
+      });
+      attachEventListener(Events.INSTRUMENT_READY, (event) => {
+        console.log(event?.detail);
+      });
+      attachEventListener(Events.FULL_PAYMENT_DONE, () => {
+        setIsSuccess(true);
+      });
+      setEventsAttached(true);
+    }
+  }, [Events, attachEventListener, eventsAttached]);
+
+  if (error) {
+    return <div>An error occured</div>;
+  }
+  if (isSuccess) {
+    return <div>Payment Success</div>;
+  }
   return (
     <>
       <CoreContainer>
-        <div>Formulaire de paiement</div>
+        <div>Basic integration example</div>
 
         <MethodsContainer />
         <PaymentContainer>
@@ -36,7 +70,7 @@ const PayGreenForm = () => {
           <ExpContainer />
         </PaymentContainer>
 
-        <button onClick={submitPayment}>Payer</button>
+        {!isAuthenticating && <button onClick={submitPayment}>Pay</button>}
       </CoreContainer>
     </>
   );

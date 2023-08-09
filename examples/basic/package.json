@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@paygreen/pgjs-react": "file:../../pgjs-react/paygreen-pgjs-react-1.0.0.tgz",
+    "@paygreen/pgjs-react": "file:../../paygreen-pgjs-react-0.1.0.tgz",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

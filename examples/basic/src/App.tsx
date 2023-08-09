@@ -4,7 +4,7 @@ import PayGreenForm from "./components/PayGreenForm";
 
 function App() {
   return (
-    <PGJSProvider>
+    <PGJSProvider devMode>
       <PayGreenForm />
     </PGJSProvider>
   );

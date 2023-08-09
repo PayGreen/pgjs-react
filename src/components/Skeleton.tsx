@@ -1,7 +1,7 @@
-import React, { ReactElement } from "react";
+import React from "react";
 
 interface SkeletonProps {
-  children?: ReactElement | Array<ReactElement>;
+  children?: any;
 }
 
 export const CoreContainer = ({ children }: SkeletonProps) => (

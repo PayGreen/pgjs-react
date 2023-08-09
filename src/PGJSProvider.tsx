@@ -5,7 +5,14 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { ParamsType, PaymentFlowType, PaymentOrderType } from "./types";
+import {
+  EventsType,
+  PGEvent,
+  ParamsType,
+  PaymentFlowType,
+  PaymentOrderType,
+} from "./types";
+import { Events } from "./types/EventsEnum";
 import { OAuthMethods } from "./utils/constants";
 import { loadPGJS } from "./utils/loadPGJS";
 
@@ -16,6 +23,8 @@ const PGJSContext = createContext<ProviderProps>({
   setLanguage: () => null,
   submitPayment: () => null,
   unmount: () => null,
+  detachEventListener: () => null,
+  attachEventListener: () => null,
   isPGJSAvailable: false,
   isPGJSInit: false,
   paymentOrder: null,
@@ -25,6 +34,7 @@ const PGJSContext = createContext<ProviderProps>({
   isPaying: false,
   isAuthenticating: false,
   publicKey: null,
+  Events: Events,
 });
 
 interface ProviderProps {
@@ -34,6 +44,11 @@ interface ProviderProps {
   setLanguage: (language: string) => void;
   submitPayment: () => void;
   unmount: (detach?: boolean) => void;
+  detachEventListener: (detach?: boolean) => void;
+  attachEventListener: (
+    event: string,
+    callback: (event: PGEvent) => void
+  ) => void;
   isPGJSAvailable: boolean;
   isPGJSInit: boolean;
   paymentOrder: PaymentOrderType | null;
@@ -43,13 +58,15 @@ interface ProviderProps {
   isPaying: boolean;
   isAuthenticating: boolean;
   publicKey: string | null;
+  Events: EventsType;
 }
 
 interface PGJSProviderProps {
-  children: ReactElement | Array<ReactElement>;
+  devMode?: boolean;
+  children?: ReactElement | Array<ReactElement>;
 }
 
-const PGJSProvider = ({ children }: PGJSProviderProps) => {
+const PGJSProvider = ({ devMode, children }: PGJSProviderProps) => {
   const [isPGJSAvailable, setIsPGJSAvailable] = useState(!!window?.paygreenjs);
   const [isPGJSInit, setIsPGJSInit] = useState(false);
   const [isEventsSubscribed, setIsEventsSubscribed] = useState(false);
@@ -96,6 +113,9 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
     window?.paygreenjs.unmount(detach);
   };
 
+  const attachEventListener = window?.paygreenjs?.attachEventListener;
+  const detachEventListener = window?.paygreenjs?.detachEventListener;
+
   useEffect(() => {
     if (!isPGJSAvailable) {
       return;
@@ -126,13 +146,10 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
     window?.paygreenjs.attachEventListener(
       window?.paygreenjs.Events.ERROR,
       (event) => {
-        window?.paygreenjs.unmount();
         setFlow(null);
         setPaymentMethod(null);
         setIsPaying(false);
         setIsAuthenticating(false);
-        setIsPGJSInit(false);
-        console.error("ToHandle Fail", event);
       }
     );
 
@@ -217,7 +234,7 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
 
   useEffect(() => {
     const initialiseAndLoadPGJS = async () => {
-      await loadPGJS();
+      await loadPGJS(devMode);
       setIsPGJSAvailable(true);
     };
     initialiseAndLoadPGJS();
@@ -236,6 +253,8 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
         setLanguage,
         submitPayment,
         unmount,
+        detachEventListener,
+        attachEventListener,
         isPGJSAvailable,
         isPGJSInit,
         paymentOrder,
@@ -245,6 +264,7 @@ const PGJSProvider = ({ children }: PGJSProviderProps) => {
         isPaying,
         isAuthenticating,
         publicKey,
+        Events,
       }}
     >
       {children}

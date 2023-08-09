@@ -1,14 +1,20 @@
 import { PaygreenJS } from "../types";
 
-const PGJS_URL_JS = "https://rc-pgjs.paygreen.dev/latest/paygreen.min.js";
-const PGJS_URL_CSS = "https://rc-pgjs.paygreen.dev/latest/paygreen.min.css";
+const PGJS_URL_JS_PRODUCTION =
+  "https://pgjs.paygreen.fr/latest/paygreen.min.js";
+const PGJS_URL_JS_SANDBOX =
+  "https://sb-pgjs.paygreen.fr/latest/paygreen.min.js";
+const PGJS_URL_CSS_PRODUCTION =
+  "https://pgjs.paygreen.fr/latest/paygreen.min.css";
+const PGJS_URL_CSS_SANDBOX =
+  "https://sb-pgjs.paygreen.fr/latest/paygreen.min.css";
 
-const injectScript = (): HTMLScriptElement => {
+const injectScript = (sandbox?: boolean): HTMLScriptElement => {
   const script = document.createElement("script");
-  script.src = PGJS_URL_JS;
+  script.src = sandbox ? PGJS_URL_JS_SANDBOX : PGJS_URL_JS_PRODUCTION;
 
   const style = document.createElement("link");
-  style.href = PGJS_URL_CSS;
+  style.href = sandbox ? PGJS_URL_CSS_SANDBOX : PGJS_URL_CSS_PRODUCTION;
   style.type = "text/css";
   style.rel = "stylesheet";
 
@@ -24,7 +30,7 @@ const injectScript = (): HTMLScriptElement => {
   return script;
 };
 
-export const loadPGJS = () => {
+export const loadPGJS = (sandbox?: boolean) => {
   let pgjsPromise: Promise<PaygreenJS | null> | null = null;
 
   if (pgjsPromise !== null) {
@@ -47,7 +53,7 @@ export const loadPGJS = () => {
     }
 
     try {
-      let pgjsScript = injectScript();
+      let pgjsScript = injectScript(sandbox);
 
       pgjsScript.addEventListener("load", () => {
         if (window.paygreenjs) {
