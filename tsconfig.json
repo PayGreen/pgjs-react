@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "module": "esnext",
+    "target": "esnext",
+    "lib": ["es5", "es6", "dom", "es2017"],
+    "sourceMap": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "outDir": "build/compiled",
+    "strict": true,
+    "noEmitOnError": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "build"],
+  "globals": {
+    "paygreenjs": true
+  }
+}
