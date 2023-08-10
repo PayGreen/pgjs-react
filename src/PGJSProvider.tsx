@@ -137,9 +137,8 @@ const PGJSProvider = ({ devMode, children }: PGJSProviderProps) => {
 
     window?.paygreenjs.attachEventListener(
       window?.paygreenjs.Events.TOKEN_FAIL,
-      (event) => {
+      () => {
         setIsPaying(false);
-        console.error("ToHandle token Fail", event);
       }
     );
 
@@ -182,20 +181,6 @@ const PGJSProvider = ({ devMode, children }: PGJSProviderProps) => {
         setIsPaying(false);
         setIsAuthenticating(false);
         setPaymentMethod(null);
-      }
-    );
-
-    window?.paygreenjs.attachEventListener(
-      window?.paygreenjs.Events.PAN_FIELD_FULFILLED,
-      () => {
-        window?.paygreenjs.focus("exp");
-      }
-    );
-
-    window?.paygreenjs.attachEventListener(
-      window?.paygreenjs.Events.EXP_FIELD_FULFILLED,
-      () => {
-        window?.paygreenjs.focus("cvv");
       }
     );
 
