@@ -1,8 +1,9 @@
 name: Build an Publish Package to npmjs
-on: push
+on: release
 jobs:
   build_publish:
     runs-on: ubuntu-latest
+    environment: production-manual
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 16
