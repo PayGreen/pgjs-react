@@ -1,5 +1,4 @@
 import {
-  CoreContainer,
   CvvContainer,
   ExpContainer,
   MethodsContainer,
@@ -60,18 +59,15 @@ const PayGreenForm = () => {
   }
   return (
     <>
-      <CoreContainer>
-        <div>Basic integration example</div>
-
+      <h1>Basic integration example</h1>
+      <PaymentContainer>
         <MethodsContainer />
-        <PaymentContainer>
-          <PanContainer />
-          <CvvContainer />
-          <ExpContainer />
-        </PaymentContainer>
+        <PanContainer />
+        <CvvContainer />
+        <ExpContainer />
 
         {!isAuthenticating && <button onClick={submitPayment}>Pay</button>}
-      </CoreContainer>
+      </PaymentContainer>
     </>
   );
 };
