@@ -1,5 +1,4 @@
 import {
-  CoreContainer,
   CvvContainer,
   ExpContainer,
   MethodsContainer,
@@ -9,7 +8,6 @@ import {
 import { PGJSProvider, usePGJS } from "./PGJSProvider";
 
 export {
-  CoreContainer,
   CvvContainer,
   ExpContainer,
   MethodsContainer,

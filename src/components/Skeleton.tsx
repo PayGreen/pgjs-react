@@ -4,14 +4,11 @@ interface SkeletonProps {
   children?: any;
 }
 
-export const CoreContainer = ({ children }: SkeletonProps) => (
+export const PaymentContainer = ({ children }: SkeletonProps) => (
   <div id="paygreen-container">{children}</div>
 );
 export const MethodsContainer = ({ children }: SkeletonProps) => (
   <div id="paygreen-methods-container">{children}</div>
-);
-export const PaymentContainer = ({ children }: SkeletonProps) => (
-  <div id="paygreen-payment-container">{children}</div>
 );
 export const CvvContainer = ({ children }: SkeletonProps) => (
   <div id="paygreen-cvv-frame">{children}</div>

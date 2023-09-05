@@ -1,16 +1,16 @@
 import React, {
-  ReactElement,
   createContext,
+  ReactElement,
   useContext,
   useEffect,
   useState,
 } from "react";
 import {
   EventsType,
-  PGEvent,
   ParamsType,
   PaymentFlowType,
   PaymentOrderType,
+  PGEvent,
 } from "./types";
 import { Events } from "./types/EventsEnum";
 import { OAuthMethods } from "./utils/constants";
