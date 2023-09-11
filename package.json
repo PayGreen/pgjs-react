@@ -1,6 +1,6 @@
 {
   "name": "@paygreen/pgjs-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This library offers a simple integration of PayGreenJS in an React app",
   "type": "module",
   "files": [
